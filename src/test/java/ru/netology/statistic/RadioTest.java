@@ -6,6 +6,17 @@ import org.junit.jupiter.api.Test;
 public class RadioTest {
 
     @Test
+    public void createRadio() {
+        Radio radio = new Radio(20);
+        Assertions.assertEquals(0, radio.getMinChannel());
+        Assertions.assertEquals(19, radio.getMaxChannel());
+        Assertions.assertEquals(0, radio.getCurrentChannel());
+        Assertions.assertEquals(0, radio.getMinVolume());
+        Assertions.assertEquals(100, radio.getMaxVolume());
+        Assertions.assertEquals(0, radio.getCurrentVolume());
+    }
+
+    @Test
     public void shouldSetChannel() {
         Radio radio = new Radio();
         radio.setCurrentChannel(0);
@@ -28,7 +39,7 @@ public class RadioTest {
     @Test
     public void notShouldSetChannelMoreMax() {
         Radio radio = new Radio();
-        radio.setCurrentChannel(10);
+        radio.setCurrentChannel(radio.getMaxChannel() + 1);
         int expected = 0;
         int actual = radio.getCurrentChannel();
 
@@ -36,9 +47,9 @@ public class RadioTest {
     }
 
     @Test
-    public void shouldNextChannelIf0() {
+    public void shouldNextChannelIfMin() {
         Radio radio = new Radio();
-        radio.setCurrentChannel(0);
+        radio.setCurrentChannel(radio.getMinChannel());
         radio.nextChannel();
         int expected = 1;
         int actual = radio.getCurrentChannel();
@@ -47,9 +58,9 @@ public class RadioTest {
     }
 
     @Test
-    public void shouldNextChannelIf9() {
+    public void shouldNextChannelIfMax() {
         Radio radio = new Radio();
-        radio.setCurrentChannel(9);
+        radio.setCurrentChannel(radio.getMaxChannel());
         radio.nextChannel();
         int expected = 0;
         int actual = radio.getCurrentChannel();
@@ -58,31 +69,31 @@ public class RadioTest {
     }
 
     @Test
-    public void shouldPrevChannelIf9() {
+    public void shouldPrevChannelIfMax() {
         Radio radio = new Radio();
-        radio.setCurrentChannel(9);
+        radio.setCurrentChannel(radio.getMaxChannel());
         radio.prevChannel();
-        int expected = 8;
+        int expected = radio.getMaxChannel() - 1;
         int actual = radio.getCurrentChannel();
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void shouldPrevChannelIf0() {
+    public void shouldPrevChannelIfMin() {
         Radio radio = new Radio();
-        radio.setCurrentChannel(0);
+        radio.setCurrentChannel(radio.getMinChannel());
         radio.prevChannel();
-        int expected = 9;
+        int expected = radio.getMaxChannel();
         int actual = radio.getCurrentChannel();
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void shouldIncreaseVolumeIf0() {
+    public void shouldIncreaseVolumeIfMin() {
         Radio radio = new Radio();
-        radio.setCurrentVolume(11);
+        radio.setCurrentVolume(101);
         radio.increaseVolume();
         int expected = 1;
         int actual = radio.getCurrentVolume();
@@ -91,29 +102,29 @@ public class RadioTest {
     }
 
     @Test
-    public void shouldIncreaseVolumeIf10() {
+    public void shouldIncreaseVolumeIfMax() {
         Radio radio = new Radio();
-        radio.setCurrentVolume(10);
+        radio.setCurrentVolume(radio.getMaxVolume());
         radio.increaseVolume();
-        int expected = 10;
+        int expected = 100;
         int actual = radio.getCurrentVolume();
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void shouldDecreaseVolumeIf10() {
+    public void shouldDecreaseVolumeIfMax() {
         Radio radio = new Radio();
-        radio.setCurrentVolume(10);
+        radio.setCurrentVolume(radio.getMaxVolume());
         radio.decreaseVolume();
-        int expected = 9;
+        int expected = 99;
         int actual = radio.getCurrentVolume();
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void shouldDecreaseVolumeIf0() {
+    public void shouldDecreaseVolumeIfMin() {
         Radio radio = new Radio();
         radio.setCurrentVolume(-1);
         radio.decreaseVolume();

@@ -1,39 +1,69 @@
 package ru.netology.statistic;
 
 public class Radio {
-    private int currentChannel;
-    private int currentVolume;
+
+    private int minChannel = 0;
+    private int maxChannel = 9;
+    private int currentChannel = minChannel;
+
+    private int minVolume = 0;
+    private int maxVolume = 100;
+    private int currentVolume = minVolume;
+
+    public Radio(int number) {
+        maxChannel = number - 1;
+    }
+
+    public Radio() {
+
+    }
 
     public int getCurrentChannel() {
         return currentChannel;
+    }
+
+    public int getMinChannel() {
+        return minChannel;
+    }
+
+    public int getMaxChannel() {
+        return maxChannel;
     }
 
     public int getCurrentVolume() {
         return currentVolume;
     }
 
+    public int getMinVolume() {
+        return minVolume;
+    }
+
+    public int getMaxVolume() {
+        return maxVolume;
+    }
+
     public void setCurrentChannel(int newCurrentChannel) {
-        if (newCurrentChannel < 0) {
+        if (newCurrentChannel < minChannel) {
             return;
         }
-        if (newCurrentChannel > 9) {
+        if (newCurrentChannel > maxChannel) {
             return;
         }
         currentChannel = newCurrentChannel;
     }
 
     void setCurrentVolume(int newCurrentVolume) {
-        if (newCurrentVolume < 0) {
+        if (newCurrentVolume < minVolume) {
             return;
         }
-        if (newCurrentVolume > 10) {
+        if (newCurrentVolume > maxVolume) {
             return;
         }
         currentVolume = newCurrentVolume;
     }
 
     public void nextChannel() {
-        if (currentChannel < 9) {
+        if (currentChannel < maxChannel) {
             currentChannel = currentChannel + 1;
         } else {
             currentChannel = 0;
@@ -41,7 +71,7 @@ public class Radio {
     }
 
     public void prevChannel() {
-        if (currentChannel > 0) {
+        if (currentChannel > minChannel) {
             currentChannel = currentChannel - 1;
         } else {
             currentChannel = 9;
@@ -49,7 +79,7 @@ public class Radio {
     }
 
     public void increaseVolume() {
-        if (currentVolume < 10) {
+        if (currentVolume < maxVolume) {
             currentVolume = currentVolume + 1;
         } else {
             return;
@@ -57,7 +87,7 @@ public class Radio {
     }
 
     public void decreaseVolume() {
-        if (currentVolume > 0) {
+        if (currentVolume > minVolume) {
             currentVolume = currentVolume - 1;
         } else {
             return;
